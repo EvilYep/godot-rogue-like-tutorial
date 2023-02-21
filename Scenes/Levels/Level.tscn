@@ -424,7 +424,7 @@ points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
 5/shapes = [  ]
 5/z_index = 0
 
-[node name="Level" type="Node2D"]
+[node name="Level" type="YSort"]
 __meta__ = {
 "_edit_lock_": true
 }
@@ -441,9 +441,6 @@ cell_size = Vector2( 32, 32 )
 format = 1
 tile_data = PoolIntArray( 15, 2, 0, 458779, 3, 0, 720923, 3, 0 )
 
-[node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 705, 143 )
-
 [node name="Jar" parent="." instance=ExtResource( 3 )]
 position = Vector2( 264, 310 )
 
@@ -452,3 +449,6 @@ position = Vector2( 713, 463 )
 
 [node name="Chest" parent="." instance=ExtResource( 4 )]
 position = Vector2( 163, 150 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 705, 143 )
