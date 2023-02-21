@@ -2,57 +2,91 @@ extends KinematicBody2D
 
 onready var animated_sprite = $AnimatedSprite
 
+enum STATE {
+	IDLE,
+	MOVE,
+	ATTACK
+}
+
 var dir_dict : Dictionary = {
 	"Left" : Vector2.LEFT,
 	"Right" : Vector2.RIGHT,
 	"Up" : Vector2.UP,
 	"Down" : Vector2.DOWN
 }
-var speed : float = 300.0
-var moving_direction := Vector2.ZERO
-var facing_direction := Vector2.DOWN
-var is_attacking : bool = false
-var is_moving : bool = false
 
-func _ready(): 
-	pass
+var state : int = STATE.IDLE setget set_state, get_state
+var speed : float = 300.0
+var moving_direction := Vector2.ZERO setget set_moving_direction, get_moving_direction
+var facing_direction := Vector2.DOWN setget set_facing_direction, get_facing_direction
+
+signal state_changed
+signal facing_direction_changed
+signal moving_direction_changed
+
+####  ACCESSORS  ####
+
+func set_state(value: int) -> void:
+	if value != state:
+		state = value
+		emit_signal("state_changed")
+
+func get_state() -> int:
+	return state
+
+func set_facing_direction(value: Vector2) -> void:
+	if facing_direction != value:
+		facing_direction = value
+		emit_signal("facing_direction_changed")
+
+func get_facing_direction() -> Vector2:
+	return facing_direction
+
+func set_moving_direction(value: Vector2) -> void:
+	if moving_direction != value:
+		moving_direction = value
+		emit_signal("moving_direction_changed")
+
+func get_moving_direction() -> Vector2:
+	return moving_direction
+
+####  BUILT-IN  ####
 
 func _process(_delta: float) -> void:
 	var __ = move_and_slide(moving_direction * speed)
-	# to get rid of the warning
 
 func _input(_event: InputEvent) -> void:
-	moving_direction.x = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))
-	moving_direction.y = int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
-	
-	if moving_direction != Vector2.ZERO:
-		facing_direction = moving_direction
-	
-	moving_direction = moving_direction.normalized()
+	var dir = Vector2(
+		int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left")),
+		int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
+	)
+	set_moving_direction(dir.normalized())
 	
 	if Input.is_action_just_pressed("ui_accept"):
-		is_attacking = true
+		set_state(STATE.ATTACK)
 	
-	var direction = _find_moving_direction(facing_direction)
-		
-	if is_attacking:
-		# Attack animation
-		var anim_name = "Attack" + direction
-		if animated_sprite.get_sprite_frames().has_animation(anim_name):
-			animated_sprite.play(anim_name)
-	else:
-		# Idle animation
+	if state != STATE.ATTACK:
 		if moving_direction == Vector2.ZERO:
-			animated_sprite.stop()
-			animated_sprite.set_frame(0)
+			set_state(STATE.IDLE)
 		else:
-			# Move animation
-			is_moving = true
-			var anim_name = "Move" + direction
-			if animated_sprite.get_sprite_frames().has_animation(anim_name):
-				animated_sprite.play(anim_name)
+			set_state(STATE.MOVE)
 
-func _find_moving_direction(dir: Vector2) -> String:
+####  LOGIC  ####
+
+# Update animation based on current state and facing direction
+func update_animation() -> void:
+	var direction = _find_dir_name(facing_direction)
+	var state_name = ""
+	
+	match(state):
+		STATE.IDLE: state_name = "Idle"
+		STATE.MOVE: state_name = "Move"
+		STATE.ATTACK: state_name = "Attack"
+	
+	animated_sprite.play(state_name + direction)
+
+# Find the name of a given direction and returns it as a String
+func _find_dir_name(dir: Vector2) -> String:
 	var dir_values_array = dir_dict.values()
 	var index = dir_values_array.find(dir)
 	if index == -1 : 
@@ -61,11 +95,30 @@ func _find_moving_direction(dir: Vector2) -> String:
 	var dir_key = dir_keys_array[index]
 	return dir_key
 
+####  SIGNAL RESPONSES  ####
 
 func _on_AnimatedSprite_animation_finished() -> void:
 	if "Attack".is_subsequence_of(animated_sprite.get_animation()):
-		is_attacking = false
-		var direction = _find_moving_direction(facing_direction)
-		animated_sprite.set_animation("Move" + direction)
-		animated_sprite.stop()
-		animated_sprite.set_frame(0)
+		set_state(STATE.IDLE)
+
+func _on_state_changed() -> void:
+	update_animation()
+
+func _on_facing_direction_changed() -> void:
+	update_animation()
+
+func _on_moving_direction_changed() -> void:
+	if moving_direction == Vector2.ZERO or moving_direction == facing_direction:
+		return
+	var sign_dir = Vector2(sign(moving_direction.x), sign(moving_direction.y))
+	
+	# not moving in diagonal
+	if sign_dir == moving_direction:
+		set_facing_direction(moving_direction)
+	# moving in diagonal
+	else:
+		# H movement THEN V movement
+		if sign_dir.x == facing_direction.x:
+			set_facing_direction(Vector2(0, sign_dir.y))
+		else:
+			set_facing_direction(Vector2(sign_dir.x, 0))
