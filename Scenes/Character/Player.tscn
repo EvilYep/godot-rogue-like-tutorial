@@ -231,6 +231,12 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+drag_margin_h_enabled = true
+drag_margin_v_enabled = true
+smoothing_enabled = true
+
 [connection signal="facing_direction_changed" from="." to="." method="_on_facing_direction_changed"]
 [connection signal="moving_direction_changed" from="." to="." method="_on_moving_direction_changed"]
 [connection signal="state_changed" from="." to="." method="_on_state_changed"]
