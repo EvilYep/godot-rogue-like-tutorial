@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 onready var animated_sprite = $AnimatedSprite
+onready var attack_hit_box = $AttackHitBox
 
 enum STATE {
 	IDLE,
@@ -74,7 +75,7 @@ func _input(_event: InputEvent) -> void:
 ####  LOGIC  ####
 
 # Update animation based on current state and facing direction
-func update_animation() -> void:
+func _update_animation() -> void:
 	var direction = _find_dir_name(facing_direction)
 	var state_name = ""
 	
@@ -84,6 +85,11 @@ func update_animation() -> void:
 		STATE.ATTACK: state_name = "Attack"
 	
 	animated_sprite.play(state_name + direction)
+
+#update rotation of the attack hitbox based on the facing direction
+func _update_attack_hitbox_direction() -> void:
+	var angle = facing_direction.angle()
+	attack_hit_box.set_rotation_degrees(rad2deg(angle) - 90)
 
 # Find the name of a given direction and returns it as a String
 func _find_dir_name(dir: Vector2) -> String:
@@ -95,6 +101,21 @@ func _find_dir_name(dir: Vector2) -> String:
 	var dir_key = dir_keys_array[index]
 	return dir_key
 
+func _attack_effect() -> void:
+	var bodies_array = attack_hit_box.get_overlapping_bodies()
+	for body in bodies_array:
+		if body.has_method("destroy"):
+			body.destroy()
+
+func _interaction_attempt() -> bool:
+	var bodies_array = attack_hit_box.get_overlapping_bodies()
+	var attempt_success = false
+	for body in bodies_array:
+		if body.has_method("interact"):
+			body.interact()
+			attempt_success = true
+	return attempt_success
+
 ####  SIGNAL RESPONSES  ####
 
 func _on_AnimatedSprite_animation_finished() -> void:
@@ -102,23 +123,29 @@ func _on_AnimatedSprite_animation_finished() -> void:
 		set_state(STATE.IDLE)
 
 func _on_state_changed() -> void:
-	update_animation()
+	if state == STATE.ATTACK:
+		if _interaction_attempt():
+			set_state(STATE.IDLE)
+	_update_animation()
 
 func _on_facing_direction_changed() -> void:
-	update_animation()
+	_update_animation()
+	_update_attack_hitbox_direction()
 
 func _on_moving_direction_changed() -> void:
 	if moving_direction == Vector2.ZERO or moving_direction == facing_direction:
 		return
 	var sign_dir = Vector2(sign(moving_direction.x), sign(moving_direction.y))
 	
-	# not moving in diagonal
 	if sign_dir == moving_direction:
 		set_facing_direction(moving_direction)
-	# moving in diagonal
 	else:
-		# H movement THEN V movement
 		if sign_dir.x == facing_direction.x:
 			set_facing_direction(Vector2(0, sign_dir.y))
 		else:
 			set_facing_direction(Vector2(sign_dir.x, 0))
+
+func _on_AnimatedSprite_frame_changed() -> void:
+	if "Attack".is_subsequence_of(animated_sprite.get_animation()):
+		if animated_sprite.get_frame() == 1:
+			_attack_effect()
