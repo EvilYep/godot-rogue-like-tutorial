@@ -23,11 +23,23 @@ _global_script_classes=[ {
 "class": "Player",
 "language": "GDScript",
 "path": "res://Scenes/Actors/Character/Player.gd"
+}, {
+"base": "Node",
+"class": "State",
+"language": "GDScript",
+"path": "res://StateMachine/State.gd"
+}, {
+"base": "Node",
+"class": "StateMachine",
+"language": "GDScript",
+"path": "res://StateMachine/StateMachine.gd"
 } ]
 _global_script_class_icons={
 "Actor": "",
 "Enemy": "",
-"Player": ""
+"Player": "",
+"State": "",
+"StateMachine": ""
 }
 
 [application]

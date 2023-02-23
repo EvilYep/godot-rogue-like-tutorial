@@ -14,13 +14,13 @@ func _input(_event: InputEvent) -> void:
 	set_moving_direction(dir.normalized())
 	
 	if Input.is_action_just_pressed("ui_accept"):
-		set_state(STATE.ATTACK)
+		state_machine.set_state("Attack")
 	
-	if state != STATE.ATTACK:
+	if state_machine.get_state_name() != "Attack":
 		if moving_direction == Vector2.ZERO:
-			set_state(STATE.IDLE)
+			state_machine.set_state("Idle")
 		else:
-			set_state(STATE.MOVE)
+			state_machine.set_state("Move")
 
 ####  LOGIC  ####
 
@@ -35,9 +35,9 @@ func _interaction_attempt() -> bool:
 
 ####  SIGNAL RESPONSES  ####
 
-func _on_state_changed() -> void:
-	if state == STATE.ATTACK:
+func _on_state_changed(new_state: Object) -> void:
+	if new_state.name == "Attack":
 		if _interaction_attempt():
-			set_state(STATE.IDLE)
-	# appelle la même méthode du parent
-	._on_state_changed()
+			state_machine.set_state("Idle")
+	
+	._on_state_changed(new_state)

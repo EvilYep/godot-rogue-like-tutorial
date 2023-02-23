@@ -14,7 +14,6 @@ __meta__ = {
 
 [node name="AnimatedSprite" parent="." index="0"]
 frames = ExtResource( 3 )
-animation = "IdleDown"
 
 [node name="CollisionShape2D" parent="." index="1"]
 shape = ExtResource( 1 )
