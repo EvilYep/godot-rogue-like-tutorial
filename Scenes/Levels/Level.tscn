@@ -1,6 +1,6 @@
 [gd_scene load_steps=49 format=2]
 
-[ext_resource path="res://Scenes/Character/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Actors/Character/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Levels/Tilesets/Tileset.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/InteractiveObjects/Jar/Jar.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/InteractiveObjects/Chest/Chest.tscn" type="PackedScene" id=4]

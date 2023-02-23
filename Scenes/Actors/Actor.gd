@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-class_name Player
+class_name Actor
 
 onready var animated_sprite = $AnimatedSprite
 onready var attack_hit_box = $AttackHitBox
@@ -22,7 +22,6 @@ var state : int = STATE.IDLE setget set_state, get_state
 var speed : float = 300.0
 var moving_direction := Vector2.ZERO setget set_moving_direction, get_moving_direction
 var facing_direction := Vector2.DOWN setget set_facing_direction, get_facing_direction
-
 signal state_changed
 signal facing_direction_changed
 signal moving_direction_changed
@@ -50,28 +49,12 @@ func set_moving_direction(value: Vector2) -> void:
 
 func get_moving_direction() -> Vector2: return moving_direction
 
-####  BUILT-IN  ####
+#### BUILT-IN ####
 
-func _process(_delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	var __ = move_and_slide(moving_direction * speed)
 
-func _input(_event: InputEvent) -> void:
-	var dir = Vector2(
-		int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left")),
-		int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
-	)
-	set_moving_direction(dir.normalized())
-	
-	if Input.is_action_just_pressed("ui_accept"):
-		set_state(STATE.ATTACK)
-	
-	if state != STATE.ATTACK:
-		if moving_direction == Vector2.ZERO:
-			set_state(STATE.IDLE)
-		else:
-			set_state(STATE.MOVE)
-
-####  LOGIC  ####
+#### LOGIC ####
 
 # Update animation based on current state and facing direction
 func _update_animation() -> void:
@@ -84,11 +67,6 @@ func _update_animation() -> void:
 		STATE.ATTACK: state_name = "Attack"
 	
 	animated_sprite.play(state_name + direction)
-
-#update rotation of the attack hitbox based on the facing direction
-func _update_attack_hitbox_direction() -> void:
-	var angle = facing_direction.angle()
-	attack_hit_box.set_rotation_degrees(rad2deg(angle) - 90)
 
 # Find the name of a given direction and returns it as a String
 func _find_dir_name(dir: Vector2) -> String:
@@ -106,26 +84,18 @@ func _attack_effect() -> void:
 		if body.has_method("destroy"):
 			body.destroy()
 
-func _interaction_attempt() -> bool:
-	var bodies_array = attack_hit_box.get_overlapping_bodies()
-	var attempt_success = false
-	for body in bodies_array:
-		if body.has_method("interact"):
-			body.interact()
-			attempt_success = true
-	return attempt_success
+#update rotation of the attack hitbox based on the facing direction
+func _update_attack_hitbox_direction() -> void:
+	var angle = facing_direction.angle()
+	attack_hit_box.set_rotation_degrees(rad2deg(angle) - 90)
 
 ####  SIGNAL RESPONSES  ####
+func _on_state_changed() -> void:
+	_update_animation()
 
 func _on_AnimatedSprite_animation_finished() -> void:
 	if "Attack".is_subsequence_of(animated_sprite.get_animation()):
 		set_state(STATE.IDLE)
-
-func _on_state_changed() -> void:
-	if state == STATE.ATTACK:
-		if _interaction_attempt():
-			set_state(STATE.IDLE)
-	_update_animation()
 
 func _on_facing_direction_changed() -> void:
 	_update_animation()
@@ -148,3 +118,4 @@ func _on_AnimatedSprite_frame_changed() -> void:
 	if "Attack".is_subsequence_of(animated_sprite.get_animation()):
 		if animated_sprite.get_frame() == 1:
 			_attack_effect()
+
