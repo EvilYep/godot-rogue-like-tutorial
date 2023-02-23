@@ -32,24 +32,21 @@ func set_state(value: int) -> void:
 		state = value
 		emit_signal("state_changed")
 
-func get_state() -> int:
-	return state
+func get_state() -> int: return state
 
 func set_facing_direction(value: Vector2) -> void:
 	if facing_direction != value:
 		facing_direction = value
 		emit_signal("facing_direction_changed")
 
-func get_facing_direction() -> Vector2:
-	return facing_direction
+func get_facing_direction() -> Vector2: return facing_direction
 
 func set_moving_direction(value: Vector2) -> void:
 	if moving_direction != value:
 		moving_direction = value
 		emit_signal("moving_direction_changed")
 
-func get_moving_direction() -> Vector2:
-	return moving_direction
+func get_moving_direction() -> Vector2: return moving_direction
 
 ####  BUILT-IN  ####
 

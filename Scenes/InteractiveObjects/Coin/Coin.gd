@@ -32,10 +32,13 @@ func _physics_process(delta: float) -> void:
 
 func collect() -> void:
 	state = STATE.COLLECT
-	coin_sprite.set_visible(false)
-	shadow_sprite.set_visible(false)
 	particles.set_emitting(true)
 	audio_stream.play()
+	
+	coin_sprite.set_visible(false)
+	shadow_sprite.set_visible(false)
+	
+	EVENTS.emit_signal("coin_collected")
 	
 	yield(audio_stream, "finished")
 	
