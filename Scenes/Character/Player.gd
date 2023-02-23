@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+class_name Player
+
 onready var animated_sprite = $AnimatedSprite
 onready var attack_hit_box = $AttackHitBox
 
