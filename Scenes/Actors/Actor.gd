@@ -51,6 +51,13 @@ func get_moving_direction() -> Vector2: return moving_direction
 
 #### BUILT-IN ####
 
+func _ready() -> void:
+	var __ = connect("state_changed", self, "_on_state_changed")
+	__ = connect("facing_direction_changed", self, "_on_facing_direction_changed")
+	__ = connect("moving_direction_changed", self, "_on_moving_direction_changed")
+	__ = animated_sprite.connect("animation_finished", self, "_on_AnimatedSprite_animation_finished")
+	__ = animated_sprite.connect("frame_changed", self,  "_on_AnimatedSprite_frame_changed")
+
 func _physics_process(_delta: float) -> void:
 	var __ = move_and_slide(moving_direction * speed)
 
