@@ -37,6 +37,9 @@ func get_previous_state() -> Node: return previous_state
 
 #### BUILT-IN ####
 
+func _ready() -> void:
+	set_state(get_child(0))
+
 func _physics_process(delta: float) -> void:
 	if current_state != null:
 		current_state.update(delta)

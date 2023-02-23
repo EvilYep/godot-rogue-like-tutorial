@@ -9,5 +9,5 @@ func enter_state() -> void:
 func exit_state() -> void:
 	pass
 
-func update(delta: float) -> void:
+func update(_delta: float) -> void:
 	pass

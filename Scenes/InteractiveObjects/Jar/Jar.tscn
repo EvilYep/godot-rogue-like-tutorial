@@ -1,7 +1,9 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Scenes/InteractiveObjects/Jar/Jar_SpriteSheet.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/InteractiveObjects/Jar/Jar.gd" type="Script" id=2]
+[ext_resource path="res://StateMachine/State.gd" type="Script" id=3]
+[ext_resource path="res://StateMachine/StateMachine.gd" type="Script" id=4]
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 1 )
@@ -61,5 +63,17 @@ shape = SubResource( 1 )
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource( 4 )
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource( 3 )
+
+[node name="Breaking" type="Node" parent="StateMachine"]
+script = ExtResource( 3 )
+
+[node name="Broken" type="Node" parent="StateMachine"]
+script = ExtResource( 3 )
 
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]

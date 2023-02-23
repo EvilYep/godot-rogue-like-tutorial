@@ -44,9 +44,6 @@ func _ready() -> void:
 	__ = animated_sprite.connect("animation_finished", self, "_on_AnimatedSprite_animation_finished")
 	__ = animated_sprite.connect("frame_changed", self,  "_on_AnimatedSprite_frame_changed")
 
-func _physics_process(_delta: float) -> void:
-	var __ = move_and_slide(moving_direction * speed)
-
 #### LOGIC ####
 
 # Update animation based on current state and facing direction

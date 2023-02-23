@@ -1,23 +1,16 @@
 extends StaticBody2D
 
+onready var state_machine = $StateMachine
 onready var animated_sprite = $AnimatedSprite
 onready var collision_shape = $CollisionShape2D
 
-enum STATE {
-	IDLE,
-	BREAKING,
-	BROKEN
-}
-
-var state : int = STATE.IDLE
-
 func destroy() -> void:
-	if state != STATE.IDLE:
+	if state_machine.get_state_name() != "Idle":
 		return
-	state = STATE.BREAKING
+	state_machine.set_state("Breaking")
 	animated_sprite.play("Break")
 
 func _on_AnimatedSprite_animation_finished() -> void:
 	if animated_sprite.get_animation() == "Break":
-		state = STATE.BROKEN
+		state_machine.set_state("Broken")
 		collision_shape.set_disabled(true)
