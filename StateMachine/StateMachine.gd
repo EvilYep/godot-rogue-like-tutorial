@@ -6,8 +6,12 @@ var current_state : Node = null setget set_state, get_state
 var previous_state : Node = null setget , get_previous_state
 
 signal state_changed(state)
+signal state_changed_recursive(state)
 
 #### ACCESSORS ####
+
+# Override default built-in method because we cant do "if ___ is StateMachine" until Godot 4
+func is_class(value: String) -> bool: return value == "StateMachine" or .is_class(value)
 
 func set_state(state) -> void:
 	if state is String:
@@ -39,6 +43,11 @@ func get_previous_state() -> Node: return previous_state
 #### BUILT-IN ####
 
 func _ready() -> void:
+	var __ = connect("state_changed", self, "_on_state_change")
+	
+	if state_machine.is_class("StateMachine"):
+		__ = connect("state_changed_recursive", state_machine, "_on_State_state_changed_recursive")
+	
 	set_to_default_state()
 
 func _physics_process(delta: float) -> void:
@@ -57,3 +66,11 @@ func exit_state() -> void:
 
 func set_to_default_state() -> void:
 	set_state(get_child(0))
+
+#### SIGNAL RESPONSES ####
+
+func _on_state_change(_state: Node) -> void:
+	emit_signal("state_changed_recursive", current_state)
+
+func _on_State_state_changed_recursive(_state: Node) -> void:
+	emit_signal("state_changed_recursive", current_state)
