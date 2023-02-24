@@ -19,6 +19,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Actors/States/ActorMoveState.gd"
 }, {
+"base": "State",
+"class": "AttackState",
+"language": "GDScript",
+"path": "res://Scenes/Actors/Enemy/BehaviourStates/AttackState.gd"
+}, {
+"base": "State",
+"class": "ChaseState",
+"language": "GDScript",
+"path": "res://Scenes/Actors/Enemy/BehaviourStates/ChaseState.gd"
+}, {
 "base": "Node2D",
 "class": "Coin",
 "language": "GDScript",
@@ -39,6 +49,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Actors/Enemy/Enemy.gd"
 }, {
+"base": "State",
+"class": "EnemyMoveState",
+"language": "GDScript",
+"path": "res://Scenes/Actors/Enemy/Skeleton/EnemyMoveState.gd"
+}, {
 "base": "Actor",
 "class": "Player",
 "language": "GDScript",
@@ -49,21 +64,36 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://StateMachine/State.gd"
 }, {
-"base": "Node",
+"base": "Label",
+"class": "StateLabel",
+"language": "GDScript",
+"path": "res://StateMachine/StateLabel.gd"
+}, {
+"base": "Node2D",
 "class": "StateMachine",
 "language": "GDScript",
 "path": "res://StateMachine/StateMachine.gd"
+}, {
+"base": "State",
+"class": "WanderState",
+"language": "GDScript",
+"path": "res://Scenes/Actors/Enemy/BehaviourStates/WanderState.gd"
 } ]
 _global_script_class_icons={
 "Actor": "",
 "ActorMoveState": "",
+"AttackState": "",
+"ChaseState": "",
 "Coin": "",
 "CollectableFollowState": "",
 "CollectableSpawnState": "",
 "Enemy": "",
+"EnemyMoveState": "",
 "Player": "",
 "State": "",
-"StateMachine": ""
+"StateLabel": "",
+"StateMachine": "",
+"WanderState": ""
 }
 
 [application]

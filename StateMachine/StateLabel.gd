@@ -1,5 +1,7 @@
 extends Label
 
+class_name StateLabel
+
 func _ready() -> void:
 	yield(get_parent(), "ready")
 	var __ = get_parent().connect("state_changed", self, "_on_StateMachine_state_changed")
