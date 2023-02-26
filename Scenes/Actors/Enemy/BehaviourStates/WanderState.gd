@@ -24,7 +24,7 @@ func _find_wander_destination() -> Vector2:
 	
 	if owner.pathfinder != null:
 		while !owner.pathfinder.is_position_valid(pos):
-			_generate_random_destination()
+			pos = _generate_random_destination()
 			
 	return pos
 

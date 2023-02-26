@@ -93,4 +93,7 @@ __meta__ = {
 scale = Vector2( 2.76, 2.76 )
 shape = SubResource( 4 )
 
+[node name="PathLine" parent="." index="7"]
+visible = true
+
 [connection signal="state_changed" from="StateMachine" to="." method="_on_StateMachine_state_changed"]

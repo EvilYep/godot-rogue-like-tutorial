@@ -24,3 +24,8 @@ frames = SubResource( 1 )
 [node name="AttackArea" type="Area2D" parent="." index="5"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" index="0"]
+
+[node name="PathLine" type="Line2D" parent="." index="6"]
+visible = false
+width = 3.0
+default_color = Color( 1, 0, 0, 1 )
