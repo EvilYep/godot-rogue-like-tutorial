@@ -58,7 +58,7 @@ func _find_dir_name(dir: Vector2) -> String:
 	var dir_values_array = dir_dict.values()
 	var index = dir_values_array.find(dir)
 	if index == -1 : 
-		return ""
+		return "Down"
 	var dir_keys_array = dir_dict.keys()
 	var dir_key = dir_keys_array[index]
 	return dir_key
@@ -66,7 +66,11 @@ func _find_dir_name(dir: Vector2) -> String:
 func _attack_effect() -> void:
 	var bodies_array = attack_hit_box.get_overlapping_bodies()
 	for body in bodies_array:
-		if body.has_method("destroy"):
+		if body.has_method("hurt"):
+			body.face_position(global_position)
+			body.hurt()
+		
+		elif body.has_method("destroy"):
 			body.destroy()
 
 #update rotation of the attack hitbox based on the facing direction
@@ -74,12 +78,32 @@ func _update_attack_hitbox_direction() -> void:
 	var angle = facing_direction.angle()
 	attack_hit_box.set_rotation_degrees(rad2deg(angle) - 90)
 
+func hurt() -> void:
+	state_machine.set_state("Hurt")
+	
+	_hurt_feedback()
+
+func _hurt_feedback() -> void:
+	pass
+
+func face_position(pos: Vector2) -> void:
+	var dir = global_position.direction_to(pos)
+	face_direction(dir)
+
+func face_direction(dir: Vector2) -> void:
+	if abs(dir.x) > abs(dir.y):
+		set_facing_direction(Vector2(sign(dir.x), 0))
+	else:
+		set_facing_direction(Vector2(0, sign(dir.y)))
+
 ####  SIGNAL RESPONSES  ####
 func _on_state_changed(_new_state: Object) -> void:
 	_update_animation()
 
 func _on_AnimatedSprite_animation_finished() -> void:
 	if "Attack".is_subsequence_of(animated_sprite.get_animation()):
+		state_machine.set_state("Idle")
+	elif "Hurt".is_subsequence_of(animated_sprite.get_animation()):
 		state_machine.set_state("Idle")
 
 func _on_facing_direction_changed() -> void:

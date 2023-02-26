@@ -1,6 +1,7 @@
-[gd_resource type="SpriteFrames" load_steps=34 format=2]
+[gd_resource type="SpriteFrames" load_steps=43 format=2]
 
 [ext_resource path="res://Scenes/Actors/Enemy/Skeleton/Squelette_SpriteSheet.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/Actors/Enemy/Skeleton/Squelette_SpriteSheet_Hurt.png" type="Texture" id=2]
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 1 )
@@ -49,6 +50,38 @@ region = Rect2( 384, 64, 64, 64 )
 [sub_resource type="AtlasTexture" id=13]
 atlas = ExtResource( 1 )
 region = Rect2( 448, 64, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=34]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=35]
+atlas = ExtResource( 2 )
+region = Rect2( 64, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=36]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 128, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=37]
+atlas = ExtResource( 2 )
+region = Rect2( 64, 128, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=38]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 192, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=39]
+atlas = ExtResource( 2 )
+region = Rect2( 64, 192, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=40]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 64, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=41]
+atlas = ExtResource( 2 )
+region = Rect2( 64, 64, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=14]
 atlas = ExtResource( 1 )
@@ -150,6 +183,26 @@ animations = [ {
 "frames": [ SubResource( 11 ), SubResource( 12 ), SubResource( 13 ) ],
 "loop": false,
 "name": "AttackUp",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 34 ), SubResource( 35 ) ],
+"loop": false,
+"name": "HurtDown",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 36 ), SubResource( 37 ) ],
+"loop": false,
+"name": "HurtLeft",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 38 ), SubResource( 39 ) ],
+"loop": false,
+"name": "HurtRight",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 40 ), SubResource( 41 ) ],
+"loop": false,
+"name": "HurtUp",
 "speed": 10.0
 }, {
 "frames": [ SubResource( 14 ) ],
