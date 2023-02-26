@@ -552,5 +552,4 @@ text = "0"
 script = ExtResource( 11 )
 
 [node name="Skeleton" parent="." instance=ExtResource( 12 )]
-material = ExtResource( 14 )
 position = Vector2( 469, 246 )

@@ -17,8 +17,13 @@ var dir_dict : Dictionary = {
 export var speed : float = 300.0
 var moving_direction := Vector2.ZERO setget set_moving_direction, get_moving_direction
 var facing_direction := Vector2.DOWN setget set_facing_direction, get_facing_direction
+
+export var max_hp : int = 3
+onready var hp : int = max_hp setget set_hp, get_hp
+
 signal facing_direction_changed
 signal moving_direction_changed
+signal hp_changed(hp)
 
 ####  ACCESSORS  ####
 
@@ -26,15 +31,21 @@ func set_facing_direction(value: Vector2) -> void:
 	if facing_direction != value:
 		facing_direction = value
 		emit_signal("facing_direction_changed")
-
 func get_facing_direction() -> Vector2: return facing_direction
 
 func set_moving_direction(value: Vector2) -> void:
 	if moving_direction != value:
 		moving_direction = value
 		emit_signal("moving_direction_changed")
-
 func get_moving_direction() -> Vector2: return moving_direction
+
+func set_hp(value: int) -> void:
+	value = Maths.clampi(value, 0, max_hp)
+	
+	if hp != value:
+		hp = value
+		emit_signal("hp_changed", hp)
+func get_hp() -> int: return hp
 
 #### BUILT-IN ####
 
@@ -44,6 +55,7 @@ func _ready() -> void:
 	__ = connect("moving_direction_changed", self, "_on_moving_direction_changed")
 	__ = animated_sprite.connect("animation_finished", self, "_on_AnimatedSprite_animation_finished")
 	__ = animated_sprite.connect("frame_changed", self,  "_on_AnimatedSprite_frame_changed")
+	__ = connect("hp_changed", self, "_on_hp_changed")
 
 #### LOGIC ####
 
@@ -72,7 +84,8 @@ func _attack_effect() -> void:
 		
 		if body.has_method("hurt"):
 			body.face_position(global_position)
-			body.hurt()
+			var damage = _compute_damage(body)
+			body.hurt(damage)
 		
 		elif body.has_method("destroy"):
 			body.destroy()
@@ -82,10 +95,13 @@ func _update_attack_hitbox_direction() -> void:
 	var angle = facing_direction.angle()
 	attack_hit_box.set_rotation_degrees(rad2deg(angle) - 90)
 
-func hurt() -> void:
+func hurt(damage: int) -> void:
+	set_hp(hp - damage)
 	state_machine.set_state("Hurt")
-	
 	_hurt_feedback()
+
+func die() -> void:
+	queue_free()
 
 func _hurt_feedback() -> void:
 	tween.interpolate_property(animated_sprite.material, "shader_param/opacity", 0.0, 1.0, 0.1)
@@ -95,6 +111,9 @@ func _hurt_feedback() -> void:
 	
 	tween.interpolate_property(animated_sprite.material, "shader_param/opacity", 1.0, 0.0, 0.1)
 	tween.start()
+
+func _compute_damage(_target: Actor) -> int:
+	return 1
 
 func face_position(pos: Vector2) -> void:
 	var dir = global_position.direction_to(pos)
@@ -107,6 +126,12 @@ func face_direction(dir: Vector2) -> void:
 		set_facing_direction(Vector2(0, sign(dir.y)))
 
 ####  SIGNAL RESPONSES  ####
+
+func _on_hp_changed(new_hp: int) -> void:
+	print(name + " - HP: " + String(new_hp))
+	if new_hp == 0:
+		die()
+
 func _on_state_changed(_new_state: Object) -> void:
 	_update_animation()
 
