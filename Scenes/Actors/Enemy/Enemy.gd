@@ -9,6 +9,8 @@ onready var attack_area = $AttackArea
 var target : Node2D = null
 var path : Array = []
 
+var pathfinder : PathFinder = null
+
 var target_in_chase_area : bool = false setget set_target_in_chase_area
 var target_in_attack_area : bool = false setget set_target_in_attack_area
 
@@ -53,7 +55,10 @@ func _update_behaviour_state() ->void:
 		behaviour_tree.set_state("Wander")
 
 func update_move_path(destination: Vector2) -> void:
-	path = [destination]
+	if pathfinder == null:
+		path = [destination]
+	else:
+		path = pathfinder.find_path(global_position, destination)
 
 func move_along_path(delta:float) -> void:
 	if path.empty():
