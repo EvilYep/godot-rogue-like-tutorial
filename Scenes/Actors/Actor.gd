@@ -5,6 +5,7 @@ class_name Actor
 onready var state_machine = $StateMachine
 onready var animated_sprite = $AnimatedSprite
 onready var attack_hit_box = $AttackHitBox
+onready var tween = $Tween
 
 var dir_dict : Dictionary = {
 	"Left" : Vector2.LEFT,
@@ -66,6 +67,9 @@ func _find_dir_name(dir: Vector2) -> String:
 func _attack_effect() -> void:
 	var bodies_array = attack_hit_box.get_overlapping_bodies()
 	for body in bodies_array:
+		if body == self:
+			continue
+		
 		if body.has_method("hurt"):
 			body.face_position(global_position)
 			body.hurt()
@@ -84,7 +88,13 @@ func hurt() -> void:
 	_hurt_feedback()
 
 func _hurt_feedback() -> void:
-	pass
+	tween.interpolate_property(animated_sprite.material, "shader_param/opacity", 0.0, 1.0, 0.1)
+	tween.start()
+	
+	yield(tween, "tween_all_completed")
+	
+	tween.interpolate_property(animated_sprite.material, "shader_param/opacity", 1.0, 0.0, 0.1)
+	tween.start()
 
 func face_position(pos: Vector2) -> void:
 	var dir = global_position.direction_to(pos)
