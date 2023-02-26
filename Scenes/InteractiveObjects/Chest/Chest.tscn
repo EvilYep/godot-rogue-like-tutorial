@@ -41,7 +41,7 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 12, 11 )
 
-[node name="Chest" type="StaticBody2D"]
+[node name="Chest" type="StaticBody2D" groups=["Obstacle"]]
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true

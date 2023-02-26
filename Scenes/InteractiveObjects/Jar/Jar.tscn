@@ -43,8 +43,9 @@ animations = [ {
 } ]
 
 [sub_resource type="CircleShape2D" id=1]
+radius = 7.28011
 
-[node name="Jar" type="StaticBody2D"]
+[node name="Jar" type="StaticBody2D" groups=["Obstacle"]]
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true

@@ -7,6 +7,9 @@ onready var collision_shape = $CollisionShape2D
 func destroy() -> void:
 	if state_machine.get_state_name() != "Idle":
 		return
+	
+	EVENTS.emit_signal("obstacle_destroyed", self)
+	
 	state_machine.set_state("Breaking")
 	animated_sprite.play("Break")
 

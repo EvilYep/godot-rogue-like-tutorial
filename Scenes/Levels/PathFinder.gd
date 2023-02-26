@@ -4,16 +4,20 @@ class_name PathFinder
 
 onready var tilemap = get_parent()
 
-var astar = AStar2D.new()
+export var connect_diagonals : bool = false
 
+var astar = AStar2D.new()
 var room_size := Vector2.ZERO
 
 #### BUILT-IN ####
 
 func _ready() -> void:
+	var __ = EVENTS.connect("obstacle_destroyed", self, "_on_EVENTS_obstacle_destroyed")
+	
 	room_size = tilemap.get_used_rect().size
 	
 	_init_astar()
+	_disable_all_obstacles_points()
 
 #### LOGIC ####
 
@@ -47,12 +51,12 @@ func _init_astar() -> void:
 			var point_id = _compute_point_index(cell)
 			astar.add_point(point_id, cell)
 	
-	_astar_connect_points(cells_array)
+	_astar_connect_points(cells_array, connect_diagonals)
 
 func _compute_point_index(cell: Vector2) -> int:
 	return int(abs(cell.x + room_size.x * cell.y))
 
-func _astar_connect_points(point_array: Array) -> void:
+func _astar_connect_points(point_array: Array, connect_diags : bool = true) -> void:
 	for point in point_array:
 		var point_index = _compute_point_index(point)
 		
@@ -61,8 +65,32 @@ func _astar_connect_points(point_array: Array) -> void:
 		
 		for y_offset in range(3):
 			for x_offset in range(3):
+				if !connect_diags && x_offset in [0, 2] && y_offset in [0, 2]:
+					continue
 				var point_relative = Vector2(point.x + x_offset -1, point.y + y_offset -1)
 				var point_rel_id = _compute_point_index(point_relative)
 				if point_relative == point or !astar.has_point(point_rel_id):
 					continue
 				astar.connect_points(point_index, point_rel_id)
+
+func _disable_all_obstacles_points() -> void:
+	for obstacle in get_tree().get_nodes_in_group("Obstacle"):
+		_update_obstacle_point(obstacle, true)
+
+func _update_obstacle_point(obstacle: Node2D, disabled: bool)-> void:
+	var obstacle_pos = obstacle.get_global_position()
+	var cell = tilemap.world_to_map(obstacle_pos)
+	var point_id = _compute_point_index(cell)
+	
+	astar.set_point_disabled(point_id, disabled)
+
+func is_position_valid(pos: Vector2) -> bool:
+	var cell = tilemap.world_to_map(pos)
+	var point_id = _compute_point_index(cell)
+	
+	return astar.has_point(point_id) && !astar.is_point_disabled(point_id)
+
+#### SIGNAL RESPONSES ####
+
+func _on_EVENTS_obstacle_destroyed(obstacle: Node2D) -> void:
+	_update_obstacle_point(obstacle, false)

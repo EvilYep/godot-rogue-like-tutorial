@@ -459,6 +459,42 @@ position = Vector2( 264, 310 )
 [node name="Jar2" parent="." instance=ExtResource( 3 )]
 position = Vector2( 713, 463 )
 
+[node name="Jar3" parent="." instance=ExtResource( 3 )]
+position = Vector2( 712, 431 )
+
+[node name="Jar4" parent="." instance=ExtResource( 3 )]
+position = Vector2( 711, 399 )
+
+[node name="Jar5" parent="." instance=ExtResource( 3 )]
+position = Vector2( 711, 366 )
+
+[node name="Jar6" parent="." instance=ExtResource( 3 )]
+position = Vector2( 709, 330 )
+
+[node name="Jar7" parent="." instance=ExtResource( 3 )]
+position = Vector2( 710, 297 )
+
+[node name="Jar8" parent="." instance=ExtResource( 3 )]
+position = Vector2( 708, 263 )
+
+[node name="Jar9" parent="." instance=ExtResource( 3 )]
+position = Vector2( 740, 261 )
+
+[node name="Jar10" parent="." instance=ExtResource( 3 )]
+position = Vector2( 772, 262 )
+
+[node name="Jar11" parent="." instance=ExtResource( 3 )]
+position = Vector2( 805, 262 )
+
+[node name="Jar12" parent="." instance=ExtResource( 3 )]
+position = Vector2( 837, 263 )
+
+[node name="Jar13" parent="." instance=ExtResource( 3 )]
+position = Vector2( 870, 265 )
+
+[node name="Jar14" parent="." instance=ExtResource( 3 )]
+position = Vector2( 903, 266 )
+
 [node name="Chest" parent="." instance=ExtResource( 4 )]
 position = Vector2( 163, 150 )
 
