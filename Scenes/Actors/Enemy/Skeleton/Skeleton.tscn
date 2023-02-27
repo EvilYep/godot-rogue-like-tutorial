@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Scenes/Actors/Enemy/Enemy.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Actors/Enemy/Skeleton/SkeletonSpriteFrame.tres" type="SpriteFrames" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Scenes/Actors/Enemy/BehaviourStates/AttackState.gd" type="Script" id=9]
 [ext_resource path="res://Scenes/Actors/Enemy/BehaviourStates/WaitState.gd" type="Script" id=10]
 [ext_resource path="res://Scenes/Actors/ColorFlashShaderMaterial.tres" type="Material" id=11]
+[ext_resource path="res://StateMachine/State.gd" type="Script" id=12]
 
 [sub_resource type="Shader" id=5]
 resource_local_to_scene = true
@@ -97,7 +98,10 @@ script = ExtResource( 9 )
 [node name="Cooldown" type="Timer" parent="BehaviourTree/Attack" index="0"]
 one_shot = true
 
-[node name="StateLabel" type="Label" parent="BehaviourTree" index="3"]
+[node name="Inactive" type="Node" parent="BehaviourTree" index="3"]
+script = ExtResource( 12 )
+
+[node name="StateLabel" type="Label" parent="BehaviourTree" index="4"]
 margin_left = -21.0
 margin_top = -56.0
 margin_right = 19.0
