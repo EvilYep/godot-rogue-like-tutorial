@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=43 format=2]
+[gd_resource type="SpriteFrames" load_steps=63 format=2]
 
 [ext_resource path="res://Scenes/Actors/Character/Sprites/Character_SpriteSheet.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Actors/Character/Sprites/Character_SpriteSheet_Block_hurt.png" type="Texture" id=2]
@@ -50,6 +50,22 @@ region = Rect2( 384, 64, 64, 64 )
 [sub_resource type="AtlasTexture" id=30]
 atlas = ExtResource( 1 )
 region = Rect2( 448, 64, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=43]
+atlas = ExtResource( 2 )
+region = Rect2( 128, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=44]
+atlas = ExtResource( 2 )
+region = Rect2( 128, 192, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=45]
+atlas = ExtResource( 2 )
+region = Rect2( 128, 128, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=46]
+atlas = ExtResource( 2 )
+region = Rect2( 128, 64, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=35]
 atlas = ExtResource( 2 )
@@ -163,6 +179,70 @@ region = Rect2( 128, 64, 64, 64 )
 atlas = ExtResource( 1 )
 region = Rect2( 192, 64, 64, 64 )
 
+[sub_resource type="AtlasTexture" id=47]
+atlas = ExtResource( 2 )
+region = Rect2( 256, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=48]
+atlas = ExtResource( 2 )
+region = Rect2( 320, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=49]
+atlas = ExtResource( 2 )
+region = Rect2( 384, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=50]
+atlas = ExtResource( 2 )
+region = Rect2( 448, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=51]
+atlas = ExtResource( 2 )
+region = Rect2( 192, 192, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=52]
+atlas = ExtResource( 2 )
+region = Rect2( 256, 192, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=53]
+atlas = ExtResource( 2 )
+region = Rect2( 320, 192, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=54]
+atlas = ExtResource( 2 )
+region = Rect2( 384, 192, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=55]
+atlas = ExtResource( 2 )
+region = Rect2( 192, 128, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=56]
+atlas = ExtResource( 2 )
+region = Rect2( 256, 128, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=57]
+atlas = ExtResource( 2 )
+region = Rect2( 320, 128, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=58]
+atlas = ExtResource( 2 )
+region = Rect2( 384, 128, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=59]
+atlas = ExtResource( 2 )
+region = Rect2( 192, 64, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=60]
+atlas = ExtResource( 2 )
+region = Rect2( 256, 64, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=61]
+atlas = ExtResource( 2 )
+region = Rect2( 320, 64, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=62]
+atlas = ExtResource( 2 )
+region = Rect2( 384, 64, 64, 64 )
+
 [resource]
 animations = [ {
 "frames": [ SubResource( 19 ), SubResource( 20 ), SubResource( 21 ) ],
@@ -183,6 +263,26 @@ animations = [ {
 "frames": [ SubResource( 28 ), SubResource( 29 ), SubResource( 30 ) ],
 "loop": false,
 "name": "AttackUp",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 43 ) ],
+"loop": false,
+"name": "BlockDown",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 44 ) ],
+"loop": false,
+"name": "BlockLeft",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 45 ) ],
+"loop": false,
+"name": "BlockRight",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 46 ) ],
+"loop": false,
+"name": "BlockUp",
 "speed": 10.0
 }, {
 "frames": [ SubResource( 35 ), SubResource( 36 ) ],
@@ -243,5 +343,25 @@ animations = [ {
 "frames": [ SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ) ],
 "loop": true,
 "name": "MoveUp",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 47 ), SubResource( 48 ), SubResource( 49 ), SubResource( 50 ) ],
+"loop": false,
+"name": "ParryDown",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 51 ), SubResource( 52 ), SubResource( 53 ), SubResource( 54 ) ],
+"loop": false,
+"name": "ParryLeft",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 55 ), SubResource( 56 ), SubResource( 57 ), SubResource( 58 ) ],
+"loop": false,
+"name": "ParryRight",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 59 ), SubResource( 60 ), SubResource( 61 ), SubResource( 62 ) ],
+"loop": false,
+"name": "ParryUp",
 "speed": 10.0
 } ]

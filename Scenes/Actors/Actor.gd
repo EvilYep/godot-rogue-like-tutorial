@@ -84,10 +84,10 @@ func _attack_effect() -> void:
 		if body == self:
 			continue
 		
-		if body.has_method("hurt"):
+		if body.has_method("hit"):
 			body.face_position(global_position)
 			var damage = _compute_damage(body)
-			body.hurt(damage)
+			body.hit(damage)
 		
 		elif body.has_method("destroy"):
 			body.destroy()
@@ -97,7 +97,16 @@ func _update_attack_hitbox_direction() -> void:
 	var angle = facing_direction.angle()
 	attack_hit_box.set_rotation_degrees(rad2deg(angle) - 90)
 
-func hurt(damage: int) -> void:
+func hit(damage: int) -> void:
+	if state_machine.get_state_name() == "Block":
+		parry()
+	else:
+		_hurt(damage)
+
+func parry() -> void:
+	state_machine.set_state("Parry")
+
+func _hurt(damage: int) -> void:
 	set_hp(hp - damage)
 	state_machine.set_state("Hurt")
 	_hurt_feedback()
@@ -148,6 +157,8 @@ func _on_state_changed(_new_state: Object) -> void:
 func _on_AnimatedSprite_animation_finished() -> void:
 	if "Attack".is_subsequence_of(animated_sprite.get_animation()):
 		state_machine.set_state("Idle")
+	elif "Parry".is_subsequence_of(animated_sprite.get_animation()):
+		state_machine.set_state("Block")
 	elif "Hurt".is_subsequence_of(animated_sprite.get_animation()):
 		if hp == 0:
 			die()
