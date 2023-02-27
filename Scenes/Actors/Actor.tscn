@@ -57,4 +57,7 @@ script = ExtResource( 4 )
 [node name="Hurt" type="Node" parent="StateMachine"]
 script = ExtResource( 4 )
 
+[node name="Dead" type="Node" parent="StateMachine"]
+script = ExtResource( 4 )
+
 [node name="Tween" type="Tween" parent="."]
