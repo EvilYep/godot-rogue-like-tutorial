@@ -101,6 +101,7 @@ func hurt(damage: int) -> void:
 	_hurt_feedback()
 
 func die() -> void:
+	EVENTS.emit_signal("actor_died", self)
 	queue_free()
 
 func _hurt_feedback() -> void:
