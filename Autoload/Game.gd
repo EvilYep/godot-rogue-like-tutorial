@@ -15,9 +15,10 @@ func get_nb_coins() -> int: return nb_coins
 
 func _ready() -> void:
 	randomize()
-	EVENTS.connect("coin_collected", self, "_on_EVENTS_coin_collected")
+	EVENTS.connect("object_collected", self, "_on_EVENTS_object_collected")
 
 ####  SIGNAL RESPONSES  ####
 
-func _on_EVENTS_coin_collected() -> void:
-	set_nb_coins(nb_coins +1)
+func _on_EVENTS_object_collected(object: Node2D) -> void:
+	if object == Coin:
+		set_nb_coins(nb_coins +1)
