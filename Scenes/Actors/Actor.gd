@@ -128,7 +128,6 @@ func face_direction(dir: Vector2) -> void:
 ####  SIGNAL RESPONSES  ####
 
 func _on_hp_changed(new_hp: int) -> void:
-	print(name + " - HP: " + String(new_hp))
 	if new_hp == 0:
 		die()
 
