@@ -28,7 +28,7 @@ func collect() -> void:
 	if animation_player.has_animation("Collect"):
 		animation_player.play("Collect")
 	else:
-		queue_free()
+		object.queue_free()
 
 #### SIGNAL RESPONSES ####
 

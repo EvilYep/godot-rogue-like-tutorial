@@ -74,6 +74,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Actors/Enemy/BehaviourStates/GoToState.gd"
 }, {
+"base": "Node2D",
+"class": "Item",
+"language": "GDScript",
+"path": "res://Scenes/InteractiveObjects/Item/Item.gd"
+}, {
+"base": "Resource",
+"class": "ItemData",
+"language": "GDScript",
+"path": "res://Scenes/InteractiveObjects/Item/ItemData.gd"
+}, {
 "base": "Object",
 "class": "Maths",
 "language": "GDScript",
@@ -128,6 +138,8 @@ _global_script_class_icons={
 "Enemy": "",
 "EnemyMoveState": "",
 "GoToState": "",
+"Item": "",
+"ItemData": "",
 "Maths": "",
 "PathFinder": "",
 "Player": "",
