@@ -10,7 +10,7 @@
 [ext_resource path="res://Scenes/UI/HUD/Portrait.png" type="Texture" id=8]
 [ext_resource path="res://Scenes/UI/Font/BabaMediumPixels.ttf" type="DynamicFontData" id=9]
 [ext_resource path="res://Scenes/UI/HUD/HUD.gd" type="Script" id=10]
-[ext_resource path="res://Scenes/Levels/CoinFactory.gd" type="Script" id=11]
+[ext_resource path="res://Scenes/Levels/ItemFactory.gd" type="Script" id=11]
 [ext_resource path="res://Scenes/Actors/Enemy/Skeleton/Skeleton.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Scenes/Levels/Level.gd" type="Script" id=13]
 [ext_resource path="res://Scenes/Actors/ColorFlashShaderMaterial.tres" type="Material" id=14]
@@ -639,7 +639,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="CoinFactory" type="Node2D" parent="."]
+[node name="ItemFactory" type="Node2D" parent="."]
 script = ExtResource( 11 )
 
 [node name="Skeleton" parent="." instance=ExtResource( 12 )]

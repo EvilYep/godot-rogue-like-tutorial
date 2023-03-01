@@ -12,6 +12,7 @@ func destroy() -> void:
 	
 	state_machine.set_state("Breaking")
 	animated_sprite.play("Break")
+	$DropperBehaviour.drop_item()
 
 func _on_AnimatedSprite_animation_finished() -> void:
 	if animated_sprite.get_animation() == "Break":

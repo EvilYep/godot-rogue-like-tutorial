@@ -1,0 +1,29 @@
+[gd_resource type="Resource" load_steps=8 format=2]
+
+[ext_resource path="res://Scenes/InteractiveObjects/Item/ItemDropWeight/ItemDropWeight.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/InteractiveObjects/Item/ItemData.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/InteractiveObjects/Item/Sprites/WorldItemsSpriteSheet.png" type="Texture" id=3]
+[ext_resource path="res://Scenes/InteractiveObjects/Item/Sprites/InventoryItemSpriteSheet.png" type="Texture" id=4]
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="Resource" id=11]
+script = ExtResource( 2 )
+damage_type = 0
+damage = -10
+item_name = "Heal Potion"
+description = "A potion that heals for 10 HP"
+price = 10
+world_texture = SubResource( 10 )
+inventory_texture = SubResource( 9 )
+
+[resource]
+script = ExtResource( 1 )
+item_data = SubResource( 11 )
+weight = 10.0
