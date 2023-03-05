@@ -14,4 +14,3 @@ signal actor_died(actor)
 signal room_finished()
 
 signal obstacle_destroyed(obstacle)
-

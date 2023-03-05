@@ -4,6 +4,7 @@ class_name Inventory
 
 onready var tween = $Tween
 onready var panel = $Panel
+onready var item_list = $Panel/VBoxContainer/ItemList
 onready var hidden_position = rect_position
 onready var visible_position = rect_position - panel.rect_size * Vector2.RIGHT
 
@@ -37,8 +38,18 @@ func _animation(appear: bool) -> void:
 func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("inventory"):
 		set_hidden(!hidden)
+	
+	if hidden:
+		return
+	
+	if Input.is_action_just_pressed("ui_up"):
+		item_list.navigate_up()
+	
+	if Input.is_action_just_pressed("ui_down"):
+		item_list.navigate_down()
 
 #### SIGNAL RESPONSES ####
 
 func _on_hidden_changed(_value :bool) -> void:
 	_animation(!hidden)
+	get_tree().paused = !hidden
