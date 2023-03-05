@@ -691,7 +691,7 @@ position = Vector2( 469, 246 )
 [node name="Door" parent="." instance=ExtResource( 15 )]
 position = Vector2( 480, 32 )
 
-[connection signal="hidden_changed" from="UI_Container/UI/Inventory" to="UI_Container/UI/Inventory/Panel/VBoxContainer/ItemList" method="_on_Inventory_hidden_changed"]
 [connection signal="hidden_changed" from="UI_Container/UI/Inventory" to="UI_Container/UI/BlackVeil" method="_on_Inventory_hidden_changed"]
+[connection signal="hidden_changed" from="UI_Container/UI/Inventory" to="UI_Container/UI/Inventory/Panel/VBoxContainer/ItemList" method="_on_Inventory_hidden_changed"]
 [connection signal="item_added" from="UI_Container/UI/Inventory/InventoryDataManager" to="UI_Container/UI/Inventory/Panel/VBoxContainer/ItemList" method="_on_InventoryDataManager_item_added"]
 [connection signal="item_removed" from="UI_Container/UI/Inventory/InventoryDataManager" to="UI_Container/UI/Inventory/Panel/VBoxContainer/ItemList" method="_on_InventoryDataManager_item_removed"]
