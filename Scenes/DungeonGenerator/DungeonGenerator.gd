@@ -7,7 +7,7 @@ enum CELL_TYPE {
 	WALL
 }
 
-export var grid_size := Vector2(7, 7)
+export var grid_size := Vector2(10, 10)
 var grid : Array = []
 
 var walker_array : Array = []
@@ -37,7 +37,7 @@ func _generate_dungeon() -> void:
 		for walker in walker_array:
 			var accessible_cells = get_accessible_cells(walker.cell)
 			walker.step(accessible_cells)
-			yield(get_tree().create_timer(0.2), "timeout")
+			yield(get_tree().create_timer(0.02), "timeout")
 			_update_grid_display()
 	
 	print("Generation finished")
@@ -61,14 +61,18 @@ func _update_grid_display() -> void:
 			
 			$TileMap.set_cell(i, j, cell_type - 1)
 
-func _place_walker() -> void:
-	var rand_cell = Vector2(randi() % int(grid_size.x), randi() % int(grid_size.y))
-	var walker = Walker.new(rand_cell, 9)
+func _place_walker(cell := Vector2.INF, max_nb_steps: int = 9, nb_sub_walkers: int = 2) -> void:
+	if cell == Vector2.INF:
+		cell = Vector2(randi() % int(grid_size.x), randi() % int(grid_size.y))
+	
+	var walker = Walker.new(cell, max_nb_steps, nb_sub_walkers)
 	walker_array.append(walker)
 	add_child(walker)
 	
 	var __ = walker.connect("moved", self, "_on_walker_moved")
 	__ = walker.connect("arrived", self, "_on_walker_arrived", [walker])
+	__ = walker.connect("sub_walker_creation", self, "_on_walker_sub_walker_creation")
+
 
 func get_accessible_cells(cell: Vector2) -> Array:
 	var adjacent_cells = Utils.get_adjacent_cells(cell)
@@ -98,3 +102,6 @@ func _on_walker_moved(cell: Vector2) -> void:
 func _on_walker_arrived(walker: Walker) -> void:
 	walker_array.erase(walker)
 	walker.queue_free()
+
+func _on_walker_sub_walker_creation(cell: Vector2, max_nb_steps: int, nb_sub_walkers: int) -> void:
+	_place_walker(cell, max_nb_steps, nb_sub_walkers)
